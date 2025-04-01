@@ -12,15 +12,6 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      # - name: Bump Maven minor version
-      #   id: bump
-      #   uses: cfedersp/maven-artifact-version-bumper@v5
-      #   with:
-      #     pom-file: 'myapp/pom.xml'
-      #     github-token: ${{  secrets.PR_TOKEN }}
-      #     commit-message: 'ci: bump version to {{version}}'
-      #     git-username: github-actions
-      #     git-email: github-actions@github.com
       - name: Run unitests
         run: mvn test
         working-directory: myapp
@@ -42,3 +33,12 @@ jobs:
           tags: ${{ vars.DOCKERHUB_USERNAME }}/myapp:${{ steps.get-version.outputs.version }}
           cache-from: type=registry,ref=${{ vars.DOCKERHUB_USERNAME }}/myapp:cache
           cache-to: type=registry,ref=${{ vars.DOCKERHUB_USERNAME }}/myapp:cache,mode=max
+      # - name: Bump Maven minor version
+      #   id: bump
+      #   uses: cfedersp/maven-artifact-version-bumper@v5
+      #   with:
+      #     pom-file: 'myapp/pom.xml'
+      #     github-token: ${{  secrets.PR_TOKEN }}
+      #     commit-message: 'ci: bump version to {{version}}'
+      #     git-username: github-actions
+      #     git-email: github-actions@github.com
