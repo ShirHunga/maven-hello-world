@@ -24,7 +24,7 @@ jobs:
       - name: Run unitests
         run: mvn test
       - id: get-version
-        uses: jactions/maven-version@v1
+        uses: jactions/maven-version@v1.2.0
         with:
           pom: /myapp/pom.xml
       - name: Login to Docker Hub
