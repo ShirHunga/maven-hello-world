@@ -12,11 +12,15 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: Bump version
+      - name: Bump Maven minor version
         id: bump
-        uses: mickem/gh-action-bump-maven-version@1.0.0
+        uses: qcastel/github-actions-maven-version-bump@v1.2.0
         with:
-          pom-file: myapp/pom.xml
+          bump: 'minor'
+          pom-file: 'backend/pom.xml'
+          commit-message: 'ci: bump version to {{version}}'
+          git-username: github-actions
+          git-email: github-actions@github.com
       - name: Run unitests
         run: mvn test
       - name: Login to Docker Hub
@@ -30,6 +34,6 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
-          tags: ${{ vars.DOCKERHUB_USERNAME }}/myapp:${{ steps.bump.outputs.tag }}
+          tags: ${{ vars.DOCKERHUB_USERNAME }}/myapp:${{ steps.bump.outputs.version }}
           cache-from: type=registry,ref=${{ vars.DOCKERHUB_USERNAME }}/myapp:cache
           cache-to: type=registry,ref=${{ vars.DOCKERHUB_USERNAME }}/myapp:cache,mode=max
