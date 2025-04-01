@@ -23,6 +23,7 @@ jobs:
       #     git-email: github-actions@github.com
       - name: Run unitests
         run: mvn test
+        working-directory: myapp
       - id: get-version
         uses: jactions/maven-version@v1.2.0
         with:
