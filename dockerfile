@@ -6,6 +6,9 @@ COPY myapp/src ./src
 RUN mvn clean package -DskipTests
 
 FROM eclipse-temurin:17-jre AS PROD
+RUN useradd -m appuser
 WORKDIR /app
 COPY --from=Build /app/target/*.jar app.jar
+RUN chown -R appuser:appuser /app
+USER appuser
 ENTRYPOINT ["java", "-jar", "app.jar"]
